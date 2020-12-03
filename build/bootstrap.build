@@ -1,0 +1,7 @@
+project = lyrahgames-gnuplot-pipe
+
+using version
+using config
+using test
+using install
+using dist
