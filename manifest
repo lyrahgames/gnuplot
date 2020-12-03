@@ -1,6 +1,6 @@
 : 1
 name: lyrahgames-gnuplot-pipe
-version: 0.1.0
+version: 0.1.1-a.0.z
 project: lyrahgames
 summary: Small Header-Only Library for Gnuplot Pipeline
 license: GPL-3.0-or-later ; GNU General Public License v3.0 or later
