@@ -13,4 +13,6 @@
 !README.md
 !COPYING
 
+!docs/images/*.png
+
 !.gitignore
