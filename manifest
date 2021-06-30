@@ -1,5 +1,5 @@
 : 1
-name: lyrahgames-gnuplot-pipe
+name: lyrahgames-gnuplot
 version: 0.1.1-a.0.z
 project: lyrahgames
 summary: Small Header-Only Library for Gnuplot Pipeline
@@ -10,7 +10,7 @@ keywords: plot
 
 description-file: README.md
 
-url: https://github.com/lyrahgames/gnuplot-pipe
+url: https://github.com/lyrahgames/gnuplot
 
 email: lyrahgames@mailbox.org
 build-error-email: lyrahgames@mailbox.org
@@ -18,6 +18,6 @@ build-error-email: lyrahgames@mailbox.org
 depends: * build2 >= 0.13.0
 depends: * bpkg >= 0.13.0
 
-requires: c++17
-requires: linux
+requires: c++20
+requires: linux | windows
 requires: gnuplot

@@ -1,0 +1,43 @@
+#pragma once
+
+// The numeric version format is AAAAABBBBBCCCCCDDDE where:
+//
+// AAAAA - major version number
+// BBBBB - minor version number
+// CCCCC - bugfix version number
+// DDD   - alpha / beta (DDD + 500) version number
+// E     - final (0) / snapshot (1)
+//
+// When DDDE is not 0, 1 is subtracted from AAAAABBBBBCCCCC. For example:
+//
+// Version      AAAAABBBBBCCCCCDDDE
+//
+// 0.1.0        0000000001000000000
+// 0.1.2        0000000001000020000
+// 1.2.3        0000100002000030000
+// 2.2.0-a.1    0000200001999990010
+// 3.0.0-b.2    0000299999999995020
+// 2.2.0-a.1.z  0000200001999990011
+//
+#define LYRAHGAMES_GNUPLOT_VERSION \
+  $lyrahgames_gnuplot.version.project_number$ULL
+#define LYRAHGAMES_GNUPLOT_VERSION_STR \
+  "$lyrahgames_gnuplot.version.project$"
+#define LYRAHGAMES_GNUPLOT_VERSION_ID \
+  "$lyrahgames_gnuplot.version.project_id$"
+#define LYRAHGAMES_GNUPLOT_VERSION_FULL "$lyrahgames_gnuplot.version$"
+
+#define LYRAHGAMES_GNUPLOT_VERSION_MAJOR \
+  $lyrahgames_gnuplot.version.major$
+#define LYRAHGAMES_GNUPLOT_VERSION_MINOR \
+  $lyrahgames_gnuplot.version.minor$
+#define LYRAHGAMES_GNUPLOT_VERSION_PATCH \
+  $lyrahgames_gnuplot.version.patch$
+
+#define LYRAHGAMES_GNUPLOT_PRE_RELEASE \
+  $lyrahgames_gnuplot.version.pre_release$
+
+#define LYRAHGAMES_GNUPLOT_SNAPSHOT_SN \
+  $lyrahgames_gnuplot.version.snapshot_sn$ULL
+#define LYRAHGAMES_GNUPLOT_SNAPSHOT_ID \
+  "$lyrahgames_gnuplot.version.snapshot_id$"

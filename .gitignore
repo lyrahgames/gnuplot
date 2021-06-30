@@ -2,17 +2,24 @@
 !*/
 
 !*.hpp
+!*.ipp
+!*.tpp
 !*.cpp
+!*.in
 
 !buildfile
-!manifest
-!root.build
 !bootstrap.build
+!root.build
 !export.build
+!*manifest
 
-!README.md
-!COPYING
+!*.md
 
 !docs/images/*.png
 
+!.clang-format
+
+!.githooks/**
+!.gitmodules
+!.gitattributes
 !.gitignore

@@ -1,4 +1,4 @@
-project = lyrahgames-gnuplot-pipe
+project = lyrahgames-gnuplot
 
 using version
 using config

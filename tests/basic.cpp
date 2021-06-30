@@ -1,7 +1,9 @@
-#include <lyrahgames/gnuplot_pipe.hpp>
+#include <lyrahgames/gnuplot/pipe.hpp>
+
+using namespace lyrahgames;
 
 int main() {
-  lyrahgames::gnuplot_pipe plot{};
+  gnuplot::pipe plot{};
   plot << "plot sin(x)\n"
        << "replot 0.5*cos(x)\n";
 }

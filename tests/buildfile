@@ -1,5 +1,5 @@
-import libs = lyrahgames-gnuplot-pipe%lib{lyrahgames-gnuplot-pipe}
-
+import libs = lyrahgames-gnuplot%lib{lyrahgames-gnuplot}
+./: exe{version}: cxx{version} $libs
 ./: exe{basic}: cxx{basic} $libs
 ./: exe{animation}: cxx{animation} $libs
 ./: exe{file}: cxx{file} $libs

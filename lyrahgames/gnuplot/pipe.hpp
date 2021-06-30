@@ -4,37 +4,35 @@
 #include <sstream>
 #include <stdexcept>
 
-namespace lyrahgames {
+namespace lyrahgames::gnuplot {
 
-class gnuplot_pipe {
- public:
+class pipe {
+public:
   static constexpr char gnuplot_cmd[] = "gnuplot -persist";
 
-  gnuplot_pipe() {
+  pipe() {
     if (!(pipe_ = popen(gnuplot_cmd, "w")))
       throw std::runtime_error("Could not open Gnuplot pipeline!");
   }
-  gnuplot_pipe(gnuplot_pipe&& plot) : pipe_{plot.pipe_} {
-    plot.pipe_ = nullptr;
-  }
-  gnuplot_pipe& operator=(gnuplot_pipe&& plot) {
+  pipe(pipe &&plot) : pipe_{plot.pipe_} { plot.pipe_ = nullptr; }
+  pipe &operator=(pipe &&plot) {
     std::swap(pipe_, plot.pipe_);
     return *this;
   }
-  gnuplot_pipe(const gnuplot_pipe&) = delete;
-  gnuplot_pipe& operator=(const gnuplot_pipe&) = delete;
-  virtual ~gnuplot_pipe() {
-    if (pipe_) pclose(pipe_);
+  pipe(const pipe &) = delete;
+  pipe &operator=(const pipe &) = delete;
+  virtual ~pipe() {
+    if (pipe_)
+      pclose(pipe_);
   }
 
-  // friend gnuplot_pipe& operator<<(gnuplot_pipe& plot, const char* cmd) {
+  // friend pipe& operator<<(pipe& plot, const char* cmd) {
   //   fputs(cmd, plot.pipe_);
   //   fflush(plot.pipe_);
   //   return plot;
   // }
 
-  template <typename T>
-  friend gnuplot_pipe& operator<<(gnuplot_pipe& plot, const T& t) {
+  template <typename T> friend pipe &operator<<(pipe &plot, const T &t) {
     // Not very efficient but suffices for now.
     std::stringstream input{};
     input << t;
@@ -43,8 +41,8 @@ class gnuplot_pipe {
     return plot;
   }
 
- private:
-  FILE* pipe_{nullptr};
+private:
+  FILE *pipe_{nullptr};
 };
 
-}  // namespace lyrahgames
+} // namespace lyrahgames::gnuplot
