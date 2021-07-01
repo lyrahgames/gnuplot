@@ -2,7 +2,7 @@
 #include <cmath>
 #include <thread>
 //
-#include <lyrahgames/gnuplot/pipe.hpp>
+#include <lyrahgames/gnuplot/gnuplot.hpp>
 
 using namespace std;
 using namespace chrono_literals;
