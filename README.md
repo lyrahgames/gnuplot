@@ -111,7 +111,7 @@
     <tr>
         <td>Compiler:</td>
         <td>
-            GCC | Clang | MinGW
+            GCC | Clang | MinGW | MSVC
         </td>
     </tr>
     <tr>
@@ -123,7 +123,7 @@
     <tr>
         <td>Operating System:</td>
         <td>
-            Linux | Windows
+            Linux | Windows | MacOS
         </td>
     </tr>
     <tr>
