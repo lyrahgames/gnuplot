@@ -1,3 +1,6 @@
+# import! gnuplot = gnuplot%exe{gnuplot}
+# info $path($gnuplot)
+
 ./: lib{lyrahgames-gnuplot}: \
   lyrahgames/gnuplot/hxx{** -version} \
   lyrahgames/gnuplot/hxx{version}

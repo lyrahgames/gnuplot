@@ -1,8 +1,11 @@
 #pragma once
 #include <cstdio>
+#include <cstdlib>
+//
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 
 #ifdef _WIN32
 #define POPEN  _popen
@@ -16,11 +19,29 @@ namespace lyrahgames::gnuplot {
 
 class pipe {
  public:
-  static constexpr char gnuplot_cmd[] = "gnuplot -persist";
+  static constexpr char gnuplot_command_environment[] = "GNUPLOT";
+  static constexpr char gnuplot_flags_environment[] = "GNUPLOT_FLAGS";
+
+  static constexpr char gnuplot_default_command[] = "gnuplot";
+  static constexpr char gnuplot_default_flags[] = "-persist";
 
   pipe() {
-    if (!(pipe_ = POPEN(gnuplot_cmd, "w")))
-      throw std::runtime_error("Failed to open Gnuplot pipeline!");
+    // Set gnuplot command.
+    const char* gnuplot_command = std::getenv(gnuplot_command_environment);
+    if (!gnuplot_command) gnuplot_command = gnuplot_default_command;
+
+    // Set gnuplot flags.
+    const char* gnuplot_flags = std::getenv(gnuplot_flags_environment);
+    if (!gnuplot_flags) gnuplot_flags = gnuplot_default_flags;
+
+    // Assemble command and open the pipe.
+    using std::string;
+    auto command = string(gnuplot_command) + " " + gnuplot_flags;
+    auto flags = string(gnuplot_flags);
+    if (!flags.empty()) command += " " + flags;
+    if (!(pipe_ = POPEN(command.c_str(), "w")))
+      throw std::runtime_error(
+          "Failed to open gnuplot pipeline with command '" + command + "'!");
   }
 
   virtual ~pipe() noexcept {
