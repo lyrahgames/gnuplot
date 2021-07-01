@@ -42,6 +42,7 @@ class pipe {
     if (!(pipe_ = POPEN(command.c_str(), "w")))
       throw std::runtime_error(
           "Failed to open gnuplot pipeline with command '" + command + "'!");
+    enable_default_style();
   }
 
   virtual ~pipe() noexcept {
@@ -64,6 +65,17 @@ class pipe {
   //   fflush(plot.pipe_);
   //   return plot;
   // }
+
+  void enable_default_style() {
+    fputs(
+        "set object 1 rect from graph 0,graph 0 to graph 1,graph 1 fc rgb "
+        "'#f6f6f6' fs solid 1.0 noborder behind\n"
+        "set grid lt 1 lw 3 lc rgb '#fafafa'\n"
+        "set key spacing 2 box opaque\n"
+        "set style line 1 lt rgb 'black' lw 3 pt 13\n",
+        pipe_);
+    fflush(pipe_);
+  }
 
   template <typename T>
   friend pipe& operator<<(pipe& plot, const T& t) {
