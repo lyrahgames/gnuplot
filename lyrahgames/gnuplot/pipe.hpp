@@ -23,7 +23,7 @@ class pipe {
   static constexpr char gnuplot_flags_environment[] = "GNUPLOT_FLAGS";
 
   static constexpr char gnuplot_default_command[] = "gnuplot";
-  static constexpr char gnuplot_default_flags[] = "-persist";
+  static constexpr char gnuplot_default_flags[] = "--persist --slow";
 
   pipe() {
     // Set gnuplot command.
