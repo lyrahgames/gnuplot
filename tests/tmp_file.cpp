@@ -20,5 +20,5 @@ int main() {
   file.flush();
 
   gnuplot::pipe plot{};
-  plot << "plot " << file.path() << " u 3:4 w l title 'data'\n";
+  plot << "plot '" << file.path().string() << "' u 3:4 w l\n";
 }
