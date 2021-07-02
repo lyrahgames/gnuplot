@@ -35,6 +35,14 @@ class temporary_file {
     std::filesystem::remove(filepath);
   }
 
+  // Copies are not allowed
+  temporary_file(const temporary_file&) = delete;
+  temporary_file& operator=(const temporary_file&) = delete;
+
+  // Moves should be possible.
+  temporary_file(temporary_file&&) = default;
+  temporary_file& operator=(temporary_file&&) = default;
+
   const auto& path() const { return filepath; }
 
   void flush() { stream.flush(); }
