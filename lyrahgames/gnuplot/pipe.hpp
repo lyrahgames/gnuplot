@@ -80,10 +80,10 @@ class pipe {
   }
 
   template <typename T>
-  friend pipe& operator<<(pipe& plot, const T& t) {
+  friend pipe& operator<<(pipe& plot, T&& t) {
     // Not very efficient but suffices for now.
     std::stringstream input{};
-    input << t;
+    input << std::forward<T>(t);
     fputs(input.str().c_str(), plot.pipe_);
     fflush(plot.pipe_);
     return plot;
