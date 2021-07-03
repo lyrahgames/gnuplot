@@ -31,8 +31,20 @@ class temporary_file {
   }
 
   virtual ~temporary_file() noexcept {
+    // On Windows, the removal of the file handle is asynchronous and a file
+    // cannot be removed if there is an existing file handle to it. Therefore we
+    // may not be able to remove the file directly after closing the stream.
+    // As a consequence, we check for the removal multiple times until it
+    // succeeds by using the nothrow variant of 'filesystem::remove'.
+    // Further improvements can be added by using async operations to not block
+    // the execution of the program or by using sleep timers to not go into a
+    // busy waiting loop. But typically, this procedure is called at the end of
+    // the program. Hence, it seems not to be necessary.
     stream.close();
-    std::filesystem::remove(filepath);
+    bool deleted = false;
+    std::error_code ec;
+    while (!deleted && std::filesystem::exists(filepath))
+      deleted = std::filesystem::remove(filepath, ec);
   }
 
   // Copies are not allowed
