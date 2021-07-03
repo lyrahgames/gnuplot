@@ -1,5 +1,6 @@
 import libs = lyrahgames-gnuplot%lib{lyrahgames-gnuplot}
 ./: exe{version}: cxx{version} $libs
+./: exe{command}: cxx{command} $libs
 ./: exe{basic}: cxx{basic} $libs
 ./: exe{animation}: cxx{animation} $libs
 ./: exe{file}: cxx{file} $libs

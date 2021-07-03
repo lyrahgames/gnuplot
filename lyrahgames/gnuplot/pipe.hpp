@@ -21,38 +21,52 @@ namespace lyrahgames::gnuplot {
 
 class pipe {
  public:
-  static constexpr char gnuplot_command_environment[] = "GNUPLOT";
-  static constexpr char gnuplot_flags_environment[] = "GNUPLOT_FLAGS";
+  /// Environment variable used to customize gnuplot command string.
+  static constexpr char gnuplot_command_env[] = "GNUPLOT";
+  /// Environment variable used to customize gnuplot flags.
+  static constexpr char gnuplot_flags_env[] = "GNUPLOT_FLAGS";
 
+  /// Default Gnuplot Command Called When Opening the Pipe
   static constexpr char gnuplot_default_command[] = "gnuplot";
-  static constexpr char gnuplot_default_flags[] = "--persist --slow";
+  /// Default Gnuplot Flags Added to Command When Opening Pipe
+  static constexpr char gnuplot_default_flags[] = "";
 
-  pipe() {
+  /// Generates the command string which used to open the pipeline.
+  static auto command() -> std::string {
+    using std::string;
+
     // Set gnuplot command.
-    const char* gnuplot_command = std::getenv(gnuplot_command_environment);
-    if (!gnuplot_command) gnuplot_command = gnuplot_default_command;
+    const char* gnuplot_cmd = std::getenv(gnuplot_command_env);
+    if (!gnuplot_cmd) gnuplot_cmd = gnuplot_default_command;
 
     // Set gnuplot flags.
-    const char* gnuplot_flags = std::getenv(gnuplot_flags_environment);
+    const char* gnuplot_flags = std::getenv(gnuplot_flags_env);
     if (!gnuplot_flags) gnuplot_flags = gnuplot_default_flags;
 
     // Assemble command and open the pipe.
-    using std::string;
-    auto command = string(gnuplot_command) + " " + gnuplot_flags;
+    auto cmd = string(gnuplot_cmd);
     auto flags = string(gnuplot_flags);
-    if (!flags.empty()) command += " " + flags;
-    if (!(pipe_ = POPEN(command.c_str(), "w")))
+    if (!flags.empty()) cmd += " " + flags;
+
+    return cmd;
+  }
+
+  pipe() {
+    const auto cmd = command();
+    if (!(pipe_ = POPEN(cmd.c_str(), "w")))
       throw std::runtime_error(
-          "Failed to open gnuplot pipeline with command '" + command + "'!");
+          "Failed to open gnuplot pipeline with command '" + cmd + "'!");
     enable_default_style();
   }
 
   virtual ~pipe() noexcept {
-    if (pipe_) PCLOSE(pipe_);
+    if (!pipe_) return;
+    wait_for_plot_to_close();
+    PCLOSE(pipe_);
   }
 
+  // The pipe is movable.
   pipe(pipe&& plot) : pipe_{plot.pipe_} { plot.pipe_ = nullptr; }
-
   pipe& operator=(pipe&& plot) {
     std::swap(pipe_, plot.pipe_);
     return *this;
@@ -68,6 +82,20 @@ class pipe {
   //   return plot;
   // }
 
+  /// Takes any possible input and writes it into the pipe by using intermediary
+  /// stringstream to make a formatted string.
+  template <typename T>
+  friend pipe& operator<<(pipe& plot, T&& t) {
+    // Not very efficient but suffices for now.
+    std::stringstream input{};
+    input << std::forward<T>(t);
+    fputs(input.str().c_str(), plot.pipe_);
+    fflush(plot.pipe_);
+    return plot;
+  }
+
+ private:
+  /// Sets some defaults to enable a good style for plots.
   void enable_default_style() {
     fputs(
         "set object 1 rect from graph 0,graph 0 to graph 1,graph 1 fc rgb "
@@ -79,14 +107,11 @@ class pipe {
     fflush(pipe_);
   }
 
-  template <typename T>
-  friend pipe& operator<<(pipe& plot, T&& t) {
-    // Not very efficient but suffices for now.
-    std::stringstream input{};
-    input << std::forward<T>(t);
-    fputs(input.str().c_str(), plot.pipe_);
-    fflush(plot.pipe_);
-    return plot;
+  /// Sends command to not quit the pipe until its respective plot window has
+  /// been closed. This makes the destructor of the pipe a blocking call.
+  void wait_for_plot_to_close() {
+    fputs("pause mouse close\n", pipe_);
+    fflush(pipe_);
   }
 
  private:

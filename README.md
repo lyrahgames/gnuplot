@@ -265,3 +265,5 @@ pipe& operator<<(pipe& plot, const T& t);
 ```
 Given variable reference `t` of type `T` will be transformed into a string by using the standard stream operator `operator<<` and then send to the gnuplot process for further processing.
 
+## References
+- [Gnuplot FAQ: *Calling Gnuplot in a pipe ...*](http://www.gnuplot.info/faq/faq.html#x1-810008.8)
