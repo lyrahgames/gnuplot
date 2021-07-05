@@ -1,0 +1,19 @@
+file{doxyfile}: in{doxyfile}
+{
+  in.symbol = '|'
+  input_src = "$src_root/lyrahgames"
+  input_out = "$out_root/lyrahgames"
+}
+
+import! doxygen = doxygen%exe{doxygen}
+
+./: dir{html}: file{doxyfile} $doxygen
+{{
+  diag doxygen ($<[0])
+  $doxygen $path($<) 1>-
+}}
+% clean
+{{
+  diag rm html/
+  rm -rf $out_base/html
+}}

@@ -1,5 +1,6 @@
 #include <cmath>
 #include <fstream>
+#include <iomanip>
 #include <numbers>
 //
 #include <lyrahgames/gnuplot/gnuplot.hpp>
@@ -24,7 +25,9 @@ int main() {
       const auto phi = 2 * pi * i / (n - 1);
       const auto x = cos(3.1 * phi);
       const auto y = sin(7.2 * phi);
-      file << i << '\t' << phi << '\t' << x << '\t' << y << '\n';
+      // file << i << '\t' << phi << '\t' << x << '\t' << y << '\n';
+      file << setw(20) << i << setw(20) << phi << setw(20) << x << setw(20) << y
+           << '\n';
     }
     file.flush();
 

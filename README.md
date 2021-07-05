@@ -180,90 +180,15 @@ If your package uses an explicit `depends: lyrahgames-gnuplot` make sure to init
 ## Alternative Usage
 To use other build systems or manual compilation, you only have to add the `lyrahgames/gnuplot_pipe.hpp` file to your project and include it in the compilation process.
 
+## Build the Documentation
+
+    b docs/doxygen@../gnuplot-gcc/lyrahgames-gnuplot/docs/doxygen/
+
 ## Example
-All given examples are provided in the `tests` folder and can be compiled and executed by cloning the repository and running build2 in the root folder.
-
-### Basic
-```c++
-#include <lyrahgames/gnuplot/pipe.hpp>
-using namespace lyrahgames;
-int main() {
-  gnuplot::pipe plot{};
-  plot << "plot sin(x)\n"
-       << "replot 0.5*cos(x)\n";
-}
-```
-
-### Advanced Usage with File IO
-```c++
-#include <cmath>
-#include <fstream>
-#include <numbers>
-//
-#include <lyrahgames/gnuplot/pipe.hpp>
-
-using namespace std;
-using namespace numbers;
-using namespace lyrahgames;
-
-int main() {
-  fstream file{"tmp.dat", ios::out};
-  const int n = 100;
-  for (size_t i = 0; i < n; ++i) {
-    const auto phi = 2 * pi * i / (n - 1);
-    const auto x = cos(phi);
-    const auto y = sin(2 * phi);
-    file << i << '\t' << phi << '\t' << x << '\t' << y << '\n';
-  }
-  file << flush;
-
-  gnuplot::pipe plot{};
-  plot << "plot 'tmp.dat' u 3:4 w l\n";
-}
-```
-
-### Advanced Usage with Animations
-```c++
-#include <chrono>
-#include <cmath>
-#include <thread>
-//
-#include <lyrahgames/gnuplot/pipe.hpp>
-
-using namespace std;
-using namespace chrono_literals;
-using namespace lyrahgames;
-
-int main() {
-  float a = 1;
-  gnuplot::pipe plot{};
-  for (size_t i = 0; i < 100; ++i) {
-    plot << "plot sin(" << sin(a) << "*x)\n";
-    a += 0.1;
-    this_thread::sleep_for(50ms);
-  }
-}
-```
+- [Examples in the API Documentation](https://lyrahgames.github.io/gnuplot/examples.html)
 
 ## API
-### Gnuplot Pipeline Constructor
-```c++
-lyrahgames::gnuplot::pipe::pipe();
-```
-Opens a Linux pipe to a new gnuplot process.
-### Gnuplot Pipeline Destructor
-```c++
-virtual lyrahgames::gnuplot::pipe::~pipe();
-```
-Automatically closes and destroys the opened Linux pipe by using RAII principle.
-### Gnuplot Pipeline Stream Operator
-```c++
-namespace lyrahgames::gnuplot {
-template <typename T>
-pipe& operator<<(pipe& plot, const T& t);
-} // namespace lyrahgames::gnuplot
-```
-Given variable reference `t` of type `T` will be transformed into a string by using the standard stream operator `operator<<` and then send to the gnuplot process for further processing.
+- [API Documentation](https://lyrahgames.github.io/gnuplot/)
 
 ## References
 - [Gnuplot FAQ: *Calling Gnuplot in a pipe ...*](http://www.gnuplot.info/faq/faq.html#x1-810008.8)

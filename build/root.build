@@ -5,3 +5,5 @@ hxx{*}: extension = hpp
 cxx{*}: extension = cpp
 
 test.target = $cxx.target
+
+using in

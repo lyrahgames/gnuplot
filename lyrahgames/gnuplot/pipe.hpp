@@ -19,6 +19,19 @@
 
 namespace lyrahgames::gnuplot {
 
+/// \class pipe pipe.hpp lyrahgames/gnuplot/pipe.hpp
+/// Class that describes a handle to a Gnuplot pipeline. It can be used to open,
+/// close, and send commands to Gnuplot directly inside the C++ sources.
+///
+/// \par Basic Example:
+/// \include basic.cpp
+/// \image html example_basic.png
+///
+/// \par Animation Example:
+/// \include animation.cpp
+///
+/// \example basic.cpp \image html example_basic.png
+/// \example animation.cpp
 class pipe {
  public:
   /// Environment variable used to customize gnuplot command string.
@@ -31,7 +44,11 @@ class pipe {
   /// Default Gnuplot Flags Added to Command When Opening Pipe
   static constexpr char gnuplot_default_flags[] = "";
 
-  /// Generates the command string which used to open the pipeline.
+  /// Generates the command string which is used to open the pipeline.
+  ///
+  /// At runtime, the string can be customized by using the environment
+  /// variables 'GNUPLOT' and 'GNUPLOT_FLAGS'. In this case, the string looks
+  /// like '$GNUPLOT $GNUPLOT_FLAGS'.
   static auto command() -> std::string {
     using std::string;
 
@@ -51,6 +68,9 @@ class pipe {
     return cmd;
   }
 
+  /// Opens a pipeline to Gnuplot by calling the command given by command() and
+  /// throws an std::runtime_error if it has not succeeded. After that a default
+  /// style for plots is set.
   pipe() {
     const auto cmd = command();
     if (!(pipe_ = POPEN(cmd.c_str(), "w")))
@@ -59,6 +79,8 @@ class pipe {
     enable_default_style();
   }
 
+  /// Waits for the plotting window to be closed and destroys the pipeline
+  /// afterwards.
   virtual ~pipe() noexcept {
     if (!pipe_) return;
     wait_for_plot_to_close();
@@ -83,7 +105,7 @@ class pipe {
   // }
 
   /// Takes any possible input and writes it into the pipe by using intermediary
-  /// stringstream to make a formatted string.
+  /// std::stringstream to make a formatted string.
   template <typename T>
   friend pipe& operator<<(pipe& plot, T&& t) {
     // Not very efficient but suffices for now.
@@ -107,14 +129,16 @@ class pipe {
     fflush(pipe_);
   }
 
-  /// Sends command to not quit the pipe until its respective plot window has
-  /// been closed. This makes the destructor of the pipe a blocking call.
+  /// Sends command to not quit the pipe until
+  /// its respective plot window has been closed.
+  /// This makes the destructor of the pipe a blocking call.
   void wait_for_plot_to_close() {
     fputs("pause mouse close\n", pipe_);
     fflush(pipe_);
   }
 
  private:
+  /// Handle for Pipeline
   FILE* pipe_{nullptr};
 };
 
