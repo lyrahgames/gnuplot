@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['operator_3c_3c_23',['operator&lt;&lt;',['../classlyrahgames_1_1gnuplot_1_1pipe.html#a62840b87d41ddc9886023b132d3d64f6',1,'lyrahgames::gnuplot::pipe::operator&lt;&lt;()'],['../classlyrahgames_1_1gnuplot_1_1temporary__file.html#a6b3575f399af570c2345118fe3900d87',1,'lyrahgames::gnuplot::temporary_file::operator&lt;&lt;()']]],
+  ['operator_3d_24',['operator=',['../classlyrahgames_1_1gnuplot_1_1pipe.html#af4589ff81b1ff7316256c0ad5e32fff0',1,'lyrahgames::gnuplot::pipe::operator=(pipe &amp;&amp;plot)'],['../classlyrahgames_1_1gnuplot_1_1pipe.html#a861c52d08e75c180be9dec40d1698c7f',1,'lyrahgames::gnuplot::pipe::operator=(const pipe &amp;)=delete'],['../classlyrahgames_1_1gnuplot_1_1temporary__file.html#a00e80d78fab4969f7d64c2b1facacc87',1,'lyrahgames::gnuplot::temporary_file::operator=(const temporary_file &amp;)=delete'],['../classlyrahgames_1_1gnuplot_1_1temporary__file.html#aacb6fac118619ae69871ac6116311ce4',1,'lyrahgames::gnuplot::temporary_file::operator=(temporary_file &amp;&amp;)=default']]]
+];
