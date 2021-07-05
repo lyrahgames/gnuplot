@@ -24,6 +24,12 @@
     </a>
 </p>
 
+<p align="center">
+    <a href="https://lyrahgames.github.io/gnuplot">
+        <img src="https://img.shields.io/website/https/lyrahgames.github.io/gnuplot.svg?down_message=offline&label=Documentation&style=for-the-badge&up_color=blue&up_message=online">
+    </a>
+</p>
+
 <b>
 <table align="center">
     <tr>
@@ -137,6 +143,18 @@
 </table>
 </b>
 
+## Getting Started
+
+```c++
+#include <lyrahgames/gnuplot/gnuplot.hpp>
+using namespace lyrahgames;
+int main() {
+  gnuplot::pipe plot{};
+  plot << "plot sin(x)\n"
+       << "replot 0.5*cos(x)\n";
+}
+```
+
 ## Usage with build2
 Add this repository to the `repositories.manifest` file of your build2 package.
 
@@ -178,13 +196,13 @@ If your package uses an explicit `depends: lyrahgames-gnuplot` make sure to init
     bdep init -C @build cc config.cxx=g++ "config.cxx.coptions=-O3" -- "?sys:lyrahgames-gnuplot/*"
 
 ## Alternative Usage
-To use other build systems or manual compilation, you only have to add the `lyrahgames/gnuplot_pipe.hpp` file to your project and include it in the compilation process.
+To use other build systems or manual compilation, you only have to add the `lyrahgames/gnuplot/` directory to your project and include it in the compilation process.
 
 ## Build the Documentation
 
     b docs/doxygen@../gnuplot-gcc/lyrahgames-gnuplot/docs/doxygen/
 
-## Example
+## Examples
 - [Examples in the API Documentation](https://lyrahgames.github.io/gnuplot/examples.html)
 
 ## API
