@@ -7,11 +7,34 @@
 
 namespace lyrahgames::gnuplot {
 
+/// \class temporary_file temporary_file.hpp lyrahgames/gnuplot/temporary_file.hpp
+/// This class describes a handle to a
+/// file which was temporarily created
+/// with an undefined name to transmit data
+/// to the Gnuplot pipeline.
+///
+/// \par Example:
+/// \include tmp_file.cpp
+///
+/// \example tmp_file.cpp
 class temporary_file {
  public:
+  /// Prefix of all generated temporary file names.
   static constexpr const char file_prefix[] = "lyrahgames_gnuplot_tmp_";
+  /// Suffix of all generated temporary file names.
   static constexpr const char file_suffix[] = ".txt";
 
+  /// Creates a new unique file inside the directory
+  /// given by std::filesystem::temp_directory_path()
+  /// with a prefix given by file_prefix,
+  /// a suffix given by file_suffix, and an undefined middle part.
+  /// The file is created and directly opened for writing by an std::fstream.
+  ///
+  /// Generating a random file name and creating and opening it afterwards,
+  /// is not an atomic operation.
+  /// Therefore the method used may result in inconsistent access
+  /// when multiple processes from different applications using this library
+  /// would like to create temporary files.
   temporary_file() {
     using namespace std;
 
@@ -30,6 +53,8 @@ class temporary_file {
                                filepath.string() + "'.");
   }
 
+  /// Closes the file stream and deletes the generated
+  /// temporary file if it still exists.
   virtual ~temporary_file() noexcept {
     // On Windows, the removal of the file handle is asynchronous and a file
     // cannot be removed if there is an existing file handle to it. Therefore we
@@ -55,10 +80,14 @@ class temporary_file {
   temporary_file(temporary_file&&) = default;
   temporary_file& operator=(temporary_file&&) = default;
 
-  const auto& path() const { return filepath; }
+  /// Returns the path of the temporary file.
+  auto path() const -> const std::filesystem::path& { return filepath; }
 
+  /// Flushes the content of the file stream into the temporary file.
   void flush() { stream.flush(); }
 
+  /// Transmits formatted data to the file stream
+  /// by perfect forwarding the argument using the stream operator.
   template <typename T>
   friend auto operator<<(temporary_file& file, T&& t) -> temporary_file& {
     file.stream << std::forward<T>(t);
