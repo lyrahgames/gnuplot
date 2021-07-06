@@ -12,6 +12,7 @@
 !root.build
 !export.build
 !*manifest
+!*testscript
 
 !*.md
 

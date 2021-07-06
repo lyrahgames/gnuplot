@@ -1,12 +1,12 @@
 #include <iomanip>
 #include <iostream>
 //
-#include <lyrahgames/gnuplot/gnuplot.hpp>
+#include <lyrahgames/gnuplot/command.hpp>
 
 using namespace std;
 using namespace lyrahgames;
 
 int main() {
   // No other output should interfere. Hence, a string is first constructed.
-  cout << ("gnuplot::pipe::command() = \"" + gnuplot::pipe::command() + "\"\n");
+  cout << (gnuplot::command() + '\n');
 }

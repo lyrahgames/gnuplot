@@ -1,0 +1,19 @@
+$* 1>>END == 0
+gnuplot
+END
+
+env GNUPLOT="/usr/bin/gnuplot" -- $* 1>>END == 0
+/usr/bin/gnuplot
+END
+
+env GNUPLOT_FLAGS="--persist" -- $* 1>>END == 0
+gnuplot --persist
+END
+
+env GNUPLOT_FLAGS="-d --persist" -- $* 1>>END == 0
+gnuplot -d --persist
+END
+
+env GNUPLOT="/usr/bin/gnuplot" GNUPLOT_FLAGS="-d --persist" -- $* 1>>END == 0
+/usr/bin/gnuplot -d --persist
+END

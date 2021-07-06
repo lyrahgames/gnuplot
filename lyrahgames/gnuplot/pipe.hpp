@@ -8,6 +8,8 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+//
+#include <lyrahgames/gnuplot/command.hpp>
 
 #ifdef _WIN32
 #define POPEN  _popen
@@ -34,40 +36,6 @@ namespace lyrahgames::gnuplot {
 /// \example animation.cpp
 class pipe {
  public:
-  /// Environment variable used to customize gnuplot command string.
-  static constexpr char gnuplot_command_env[] = "GNUPLOT";
-  /// Environment variable used to customize gnuplot flags.
-  static constexpr char gnuplot_flags_env[] = "GNUPLOT_FLAGS";
-
-  /// Default Gnuplot Command Called When Opening the Pipe
-  static constexpr char gnuplot_default_command[] = "gnuplot";
-  /// Default Gnuplot Flags Added to Command When Opening Pipe
-  static constexpr char gnuplot_default_flags[] = "";
-
-  /// Generates the command string which is used to open the pipeline.
-  ///
-  /// At runtime, the string can be customized by using the environment
-  /// variables 'GNUPLOT' and 'GNUPLOT_FLAGS'. In this case, the string looks
-  /// like '$GNUPLOT $GNUPLOT_FLAGS'.
-  static auto command() -> std::string {
-    using std::string;
-
-    // Set gnuplot command.
-    const char* gnuplot_cmd = std::getenv(gnuplot_command_env);
-    if (!gnuplot_cmd) gnuplot_cmd = gnuplot_default_command;
-
-    // Set gnuplot flags.
-    const char* gnuplot_flags = std::getenv(gnuplot_flags_env);
-    if (!gnuplot_flags) gnuplot_flags = gnuplot_default_flags;
-
-    // Assemble command and open the pipe.
-    auto cmd = string(gnuplot_cmd);
-    auto flags = string(gnuplot_flags);
-    if (!flags.empty()) cmd += " " + flags;
-
-    return cmd;
-  }
-
   /// Opens a pipeline to Gnuplot by calling the command given by command() and
   /// throws an std::runtime_error if it has not succeeded. After that a default
   /// style for plots is set.

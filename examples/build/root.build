@@ -7,4 +7,3 @@ cxx{*}: extension = cpp
 test.target = $cxx.target
 
 exe{*}: test = true
-using in
