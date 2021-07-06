@@ -19,5 +19,5 @@ depends: * build2 >= 0.13.0
 depends: * bpkg >= 0.13.0
 
 requires: c++20
-requires: linux | windows
+requires: linux | windows | macos
 requires: gnuplot

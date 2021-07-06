@@ -7,3 +7,4 @@ import libs = lyrahgames-gnuplot%lib{lyrahgames-gnuplot}
 ./: exe{version}: cxx{version} $libs
 ./: exe{command}: {cxx testscript}{command} $libs
 ./: exe{pipe}: {cxx testscript}{pipe} $libs exe{mock}
+./: exe{temporary_file}: cxx{temporary_file} $libs
