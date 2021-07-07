@@ -50,8 +50,8 @@
             </a>
         </td> -->
         <td>
-            <a href="https://ci.cppget.org/?builds=lyrahgames-gnuplot&pv=&tc=*&cf=&mn=&tg=&rs=*">
-                <img src="https://img.shields.io/badge/b|2 ci.cppget.org-Click here!-blue">
+            <a href="https://ci.stage.cppget.org/?builds=lyrahgames-gnuplot&pv=&tc=*&cf=&mn=&tg=&rs=*">
+                <img src="https://img.shields.io/badge/b|2 ci.stage.cppget.org-Click here!-blue">
             </a>
         </td>
     </tr>
