@@ -1,10 +1,5 @@
-./: exe{mock}: cxx{mock}
-{
-  test = false
-}
-
 import libs = lyrahgames-gnuplot%lib{lyrahgames-gnuplot}
 ./: exe{version}: cxx{version} $libs
 ./: exe{command}: {cxx testscript}{command} $libs
-./: exe{pipe}: {cxx testscript}{pipe} $libs exe{mock}
+./: exe{pipe}: {cxx testscript}{pipe} $libs
 ./: exe{temporary_file}: cxx{temporary_file} $libs
